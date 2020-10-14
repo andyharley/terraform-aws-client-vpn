@@ -14,6 +14,8 @@ resource "aws_ec2_client_vpn_endpoint" "default" {
     cloudwatch_log_stream = aws_cloudwatch_log_stream.vpn.name
   }
 
+  split_tunnel = var.split_tunnel
+
   tags = merge(
     var.tags,
     map(
@@ -24,7 +26,7 @@ resource "aws_ec2_client_vpn_endpoint" "default" {
 }
 
 resource "aws_ec2_client_vpn_network_association" "default" {
-  count                  = length(var.subnet_ids)
+  for_each               = var.subnet_ids
   client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.default.id
-  subnet_id              = element(var.subnet_ids, count.index)
+  subnet_id              = each.value
 }

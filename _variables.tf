@@ -7,7 +7,7 @@ variable "cidr" {
 }
 
 variable "subnet_ids" {
-  type        = list(string)
+  type        = set(string)
   description = "Subnet ID to associate clients"
 }
 
@@ -17,7 +17,7 @@ variable "organization_name" {
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   default     = {}
   description = "Extra tags to attach to resources"
 }
@@ -25,4 +25,9 @@ variable "tags" {
 variable "logs_retention" {
   default     = 365
   description = "Retention in days for CloudWatch Log Group"
+}
+
+variable "split_tunnel" {
+  default     = false
+  description = "Enable or disable split tunnel"
 }
